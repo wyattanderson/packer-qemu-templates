@@ -3,21 +3,19 @@
   "builders": [
     {
       "type": "qemu",
+      "accelerator": "kvm",
       "boot_command": [
         "{{ user `boot_command_prefix` }}",
-        "/install/vmlinuz noapic ",
-        "file=/floppy/{{ user `preseed` }} ",
+        "linux noapic ",
+        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{ user `preseed` }} ",
         "debian-installer={{ user `locale` }} auto locale={{ user `locale` }} kbd-chooser/method=us ",
         "hostname={{ user `hostname` }} ",
-        "fb=false debconf/frontend=noninteractive ",
-        "keyboard-configuration/modelcode=SKIP ",
-        "keyboard-configuration/layout=USA ",
-        "keyboard-configuration/variant=USA console-setup/ask_detect=false ",
+        "fb=false debconf/frontend=noninteractive debconf/priority=critical ",
         "passwd/user-fullname={{ user `ssh_fullname` }} ",
         "passwd/user-password={{ user `ssh_password` }} ",
         "passwd/user-password-again={{ user `ssh_password` }} ",
         "passwd/username={{ user `ssh_username` }} ",
-        "initrd=/install/initrd.gz -- <enter>"
+        "initrd=initrd.gz -- <enter>"
       ],
       "disk_size": "{{ user `disk_size` }}",
       "floppy_files": [
@@ -36,6 +34,7 @@
       "ssh_username": "{{ user `ssh_username` }}",
       "ssh_wait_timeout": "10000s",
       "vm_name": "{{ user `vm_name` }}",
+      "vnc_bind_address": "0.0.0.0",
       "qemuargs": [
         [ "-m", "{{ user `memory` }}" ],
         [ "-smp", "cpus={{ user `cpus`}}"]
@@ -75,7 +74,7 @@
     }
   ],
   "variables": {
-    "boot_command_prefix": "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+    "boot_command_prefix": "<tab><leftCtrlOn>u<leftCtrlOff>",
     "cleanup_pause": "",
     "cpus": "1",
     "custom_script": ".",
@@ -87,10 +86,10 @@
     "https_proxy": "{{env `https_proxy`}}",
     "install_vagrant_key": "true",
     "install_dev_packages": "false",
-    "iso_checksum": "de5ee8665048f009577763efbf4a6f0558833e59",
+    "iso_checksum": "b7fd168b9dff18910a796e1df35a6c173922873f",
     "iso_checksum_type": "sha1",
-    "iso_name": "ubuntu-16.04-server-amd64.iso",
-    "iso_url": "http://releases.ubuntu.com/16.04/ubuntu-16.04.1-server-amd64.iso",
+    "iso_name": "mini.iso",
+    "iso_url": "http://archive.ubuntu.com/ubuntu/dists/xenial-updates/main/installer-amd64/current/images/netboot/mini.iso",
     "locale": "en_US",
     "memory": "512",
     "no_proxy": "{{env `no_proxy`}}",
