@@ -15,6 +15,7 @@
         "passwd/user-password={{ user `ssh_password` }} ",
         "passwd/user-password-again={{ user `ssh_password` }} ",
         "passwd/username={{ user `ssh_username` }} ",
+        "biosdevname=0 net.ifnames=0 ",
         "initrd=initrd.gz -- <enter>"
       ],
       "disk_size": "{{ user `disk_size` }}",
